@@ -42,15 +42,15 @@ hHat = whHat((n*(n-1)*r+1):end, 1);
 wHat = reshape(wHat, n*(n-1), r);
 hHat = reshape(hHat, r, T);
 
-reshape(W(:, 1), n-1, n)
-reshape(W(:, 2), n-1, n)
-reshape(wInit(:, 1), n-1, n)
-reshape(wInit(:, 2), n-1, n)
-reshape(wHat(:, 1), n-1, n)
-reshape(wHat(:, 2), n-1, n)
-
-H
-hInit
-hHat
+% reshape(W(:, 1), n-1, n)
+% reshape(W(:, 2), n-1, n)
+% reshape(wInit(:, 1), n-1, n)
+% reshape(wInit(:, 2), n-1, n)
+% reshape(wHat(:, 1), n-1, n)
+% reshape(wHat(:, 2), n-1, n)
+% 
+% H
+% hInit
+% hHat
 
 end
