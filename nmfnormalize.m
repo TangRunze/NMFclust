@@ -1,4 +1,4 @@
-function [W, H] = nmfnormalize(X, n, r, T)
+function [wHat, hHat] = nmfnormalize(X, n, r, T)
 
 %% Parameter Setting
 lambda = 1;
