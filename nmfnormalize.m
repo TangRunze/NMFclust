@@ -1,7 +1,6 @@
-function [wHat, hHat] = nmfnormalize(X, n, r, T)
+function [wHat, hHat] = nmfnormalize(X, n, r, T, lambda)
 
 %% Parameter Setting
-lambda = 1;
 
 % I am using MATLAB Tensor Toolbox Version 2.5 (released Feb. 1, 2012)
 % http://www.sandia.gov/~tgkolda/TensorToolbox/index-2.5.html
