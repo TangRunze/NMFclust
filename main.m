@@ -28,15 +28,23 @@ W = [Xcol1, Xcol2];
 H = [repmat([1; 0], 1, T/2), repmat([0; 1], 1, T/2)];
 
 % Normalize data
-W = W/diag(sum(W));
-H = H/diag(sum(H));
+Wnorm = W/diag(sum(W));
+Hnorm = H/diag(sum(H));
 
-X = W*H;
+X = Wnorm*Hnorm;
+
+% Generate noisy data using adjacency matrix
+Wnoise = reshape(binornd(ones(1, n*(n-1)*r), ...
+    reshape(W, 1, n*(n-1)*r)), n*(n-1), r);
+
+Wnoise = Wnoise/diag(sum(Wnoise));
+
+Xnoise = Wnoise*Hnorm;
 
 %% Solve the Optimization Problem
-lambda = 0.04;
+lambda = 0.001;
 
-[wHat, hHat] = nmfnormalize(X, n, r, T, lambda);
+[wHat, hHat] = nmfnormalize(Xnoise, n, r, T, lambda);
 
 hHat
 
