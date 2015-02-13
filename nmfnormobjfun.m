@@ -17,4 +17,6 @@ H = reshape(H, r, T);
 % Version 3: sum of the col sum except the last one.
 val = norm(X - W*H, 'fro') + lambda*sum(sum(H(1:(end-1), :)));
 
+% Version 4 : Frobenius norm.
+% val = norm(X - W*H, 'fro') + lambda*norm(H, 'fro');
 end
