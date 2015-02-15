@@ -1,4 +1,10 @@
 
+%% Parameter Setting for Simulation
+
+maxIter = 100;
+
+lambdaVec = [0.001, 0.01, 0.1, 0.5 1];
+
 %% Generate Data
 
 % Model: http://www.cis.jhu.edu/~parky/CEP-Publications/PCP-JCGS-2010.pdf
@@ -37,24 +43,40 @@ Hnorm = H/diag(sum(H));
 
 X = Wnorm*Hnorm;
 
-% Generate noisy data using adjacency matrix
-Wnoise = reshape(binornd(ones(1, n2*r), ...
-    reshape(W, 1, n2*r)), n2, r);
+%% Simulation
 
-Wnoise = Wnoise/diag(sum(Wnoise));
-
-Xnoise = Wnoise*Hnorm;
-
-%% Solve the Optimization Problem
-lambda = 0.001;
-
-[wHat, hHat] = nmfnormalize(Xnoise, n2, r, T, lambda);
-
-hHat
-
-
-
-%% Result Analysis
-hClust = (hHat >= 0.5);
-
-
+for iIter = 1:maxIter
+    
+    loadFile = ['./data/data-NMFclust-p' num2str(p) '-q' ...
+        num2str(q) '-n' num2str(n) '-r' num2str(r) '-T' num2str(T) ...
+        '-N' num2str(n2) '-graph' num2str(iIter) '.mat'];
+    
+    if exist(loadFile, 'file') == 0
+        % Generate noisy data using adjacency matrix
+        Wnoise = reshape(binornd(ones(1, n2*r), ...
+            reshape(W, 1, n2*r)), n2, r);
+        Wnoise = Wnoise/diag(sum(Wnoise));
+        Xnoise = Wnoise*Hnorm;
+        
+        parsavedata(loadFile, W, H, Wnoise, Xnoise);
+    else
+        load(loadFile);
+    end
+    
+    for iLambda = 1:length(lambdaVec);
+        lambda = lambdaVec(iLambda);
+        
+        saveFile = ['./results/results-NMFclust-p' num2str(p) '-q' ...
+            num2str(q) '-n' num2str(n) '-r' num2str(r) '-T' num2str(T) ...
+            '-N' num2str(n2) '-graph' num2str(iIter) '-lambda' ...
+            num2str(lambda) '.mat'];
+        
+        if exist(saveFile, 'file') == 0
+            % Solve the Optimization Problem
+            [wHat, hHat] = nmfnormalize(Xnoise, n2, r, T, lambda);
+            
+            parsaveresult(saveFile, W, H, Wnoise, Xnoise, wHat, hHat)
+        end
+        
+    end
+end
