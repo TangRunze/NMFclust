@@ -1,4 +1,4 @@
-function [wHat, hHat] = nmfnormalize(X, n, r, T, lambda)
+function [wHat, hHat] = nmfnormalize(X, n2, r, T, lambda)
 
 %% Parameter Setting
 
@@ -11,19 +11,19 @@ wInit = wInit/diag(sum(wInit));
 hInit = hInit/diag(sum(hInit));
 
 % Combine W and H
-whInit = [reshape(wInit, n*(n-1)*r, 1); reshape(hInit, r*T, 1)];
+whInit = [reshape(wInit, n2*r, 1); reshape(hInit, r*T, 1)];
 
 % Construct equality linear constraint
 eConMat = zeros(r+T, length(whInit));
 
 % Constraints for W
 for i = 1:r
-    eConMat(i, ((i-1)*n*(n-1)+1):(i*n*(n-1))) = 1;
+    eConMat(i, ((i-1)*n2+1):(i*n2)) = 1;
 end
 
 % Constraints for H
 for i = 1:T
-    eConMat(i+r, (n*(n-1)*r+(i-1)*r+1):(n*(n-1)*r+i*r)) = 1;
+    eConMat(i+r, (n2*r+(i-1)*r+1):(n2*r+i*r)) = 1;
 end
 
 eConVec = ones(r+T, 1);
@@ -36,13 +36,13 @@ eConVec = ones(r+T, 1);
 options = optimoptions('fmincon', 'TolX', 1e-6, ...
     'MaxIter', 10000, 'MaxFunEvals', 10000);
 
-[whHat] = fmincon(@(wh) nmfnormobjfun(X, wh, n, r, T, lambda), ...
+[whHat] = fmincon(@(wh) nmfnormobjfun(X, wh, n2, r, T, lambda), ...
     whInit, [], [], eConMat, eConVec, zeros(length(whInit), 1), ...
     Inf(length(whInit), 1), [], options);
 
-wHat = whHat(1:(n*(n-1)*r), 1);
-hHat = whHat((n*(n-1)*r+1):end, 1);
-wHat = reshape(wHat, n*(n-1), r);
+wHat = whHat(1:(n2*r), 1);
+hHat = whHat((n2*r+1):end, 1);
+wHat = reshape(wHat, n2, r);
 hHat = reshape(hHat, r, T);
 
 % reshape(W(:, 1), n-1, n)

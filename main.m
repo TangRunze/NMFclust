@@ -14,14 +14,16 @@ q = 0.9;
 r = 2;
 T = n;
 
+n2 = n*n;
+
 % Generate data
 Xcol1 = p*ones(n, n);
-Xcol1(1:(n+1):n^2) = [];
+% Xcol1(1:(n+1):n^2) = [];
 Xcol1 = Xcol1';
 
 Xcol2 = p*ones(n, n);
 Xcol2((n-m+1):n, (n-m+1):n) = q*ones(m, m);
-Xcol2(1:(n+1):n^2) = [];
+% Xcol2(1:(n+1):n^2) = [];
 Xcol2 = Xcol2';
 
 W = [Xcol1, Xcol2];
@@ -34,8 +36,8 @@ Hnorm = H/diag(sum(H));
 X = Wnorm*Hnorm;
 
 % Generate noisy data using adjacency matrix
-Wnoise = reshape(binornd(ones(1, n*(n-1)*r), ...
-    reshape(W, 1, n*(n-1)*r)), n*(n-1), r);
+Wnoise = reshape(binornd(ones(1, n2*r), ...
+    reshape(W, 1, n2*r)), n2, r);
 
 Wnoise = Wnoise/diag(sum(Wnoise));
 
@@ -44,7 +46,7 @@ Xnoise = Wnoise*Hnorm;
 %% Solve the Optimization Problem
 lambda = 0.001;
 
-[wHat, hHat] = nmfnormalize(Xnoise, n, r, T, lambda);
+[wHat, hHat] = nmfnormalize(Xnoise, n2, r, T, lambda);
 
 hHat
 

@@ -1,11 +1,11 @@
-function val = nmfnormobjfun(X, WH, n, r, T, lambda)
+function val = nmfnormobjfun(X, WH, n2, r, T, lambda)
 % Objective functions in NMF normalization problem
 
 %% Pre-calculation
-X = reshape(X, n*(n-1), T);
-W = WH(1:(n*(n-1)*r), 1);
-H = WH((n*(n-1)*r+1):end, 1);
-W = reshape(W, n*(n-1), r);
+X = reshape(X, n2, T);
+W = WH(1:(n2*r), 1);
+H = WH((n2*r+1):end, 1);
+W = reshape(W, n2, r);
 H = reshape(H, r, T);
 
 % Version 1: max of the col sum.
