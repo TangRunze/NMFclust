@@ -19,11 +19,13 @@ n2 = n*n;
 % Generate data
 Xcol1 = p*ones(n, n);
 % Xcol1(1:(n+1):n^2) = [];
+Xcol1 = reshape(Xcol1, 1, n2);
 Xcol1 = Xcol1';
 
 Xcol2 = p*ones(n, n);
 Xcol2((n-m+1):n, (n-m+1):n) = q*ones(m, m);
 % Xcol2(1:(n+1):n^2) = [];
+Xcol2 = reshape(Xcol2, 1, n2);
 Xcol2 = Xcol2';
 
 W = [Xcol1, Xcol2];
