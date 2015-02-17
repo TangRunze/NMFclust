@@ -1,3 +1,3 @@
-function parsavedata(fname, W, H, Wnoise, Xnosie)
-    save(fname, 'W', 'H', 'Wnoise','Xnosie');
+function parsavedata(fname, W, H, Wnoise, Xnoise)
+    save(fname, 'W', 'H', 'Wnoise','Xnoise');
 end
