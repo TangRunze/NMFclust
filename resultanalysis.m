@@ -40,7 +40,6 @@ diffXnoise = zeros(length(lambdaVec), maxIter);
 diffX = zeros(length(lambdaVec), maxIter);
 
 hStar = [ones(1, T/2), 2*ones(1, T/2)];
-X = W*H;
 
 for iInd = 1:maxIter
     iIter = ind(iInd);
@@ -50,6 +49,7 @@ for iInd = 1:maxIter
             num2str(q) '-n' num2str(n) '-r' num2str(r) '-T' num2str(T) ...
             '-N' num2str(n2) '-graph' num2str(iIter) '-lambda' ...
             num2str(lambda) '.mat']);
+        X = W*H;
         hClust = 2 - (hHat(1, :) >= 0.5);
         errorRate(iLambda, iInd) = min(sum(hClust ~= hStar), ...
             sum(3 - hClust ~= hStar))/T;
@@ -61,7 +61,7 @@ end
 errorMean = mean(errorRate, 2)';
 % errorCIASGE = [errorMean - 1.96*std(errorRate)/sqrt(maxIter), ...
 %     errorMean + 1.96*std(errorRate)/sqrt(maxIter)];
-errorMedianASGE = median(errorRate, 2)';
+errorMedian = median(errorRate, 2)';
 
 diffXnoiseMean = mean(diffXnoise, 2)';
 diffXnoiseMedian = median(diffXnoise, 2)';
