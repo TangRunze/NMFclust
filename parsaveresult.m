@@ -1,3 +1,3 @@
-function parsaveresult(fname, W, H, Wnoise, Xnoise, wHat, hHat)
-    save(fname, 'W', 'H', 'Wnoise', 'Xnoise', 'wHat', 'hHat');
+function parsaveresult(fname, poissonBase, H, G, N, X, wHat, hHat, l)
+    save(fname, 'poissonBase', 'H', 'G', 'N', 'X', 'wHat', 'hHat', 'l');
 end
